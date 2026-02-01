@@ -18,6 +18,7 @@ export type IconName =
   | "chevron-left"
   | "chevron-right"
   | "check"
+  | "check-circle"
   | "close"
   | "plus"
   | "minus"
@@ -29,6 +30,7 @@ export type IconName =
   | "download"
   | "arrow-up"
   | "arrow-down"
+  | "arrow-up-down"
   | "star"
   | "star-filled"
   | "heart"
@@ -52,7 +54,17 @@ export type IconName =
   | "sun"
   | "moon"
   | "grid"
-  | "list";
+  | "list"
+  | "skull"
+  | "wifi-off"
+  | "trending-up"
+  | "trending-down"
+  | "activity"
+  | "bar-chart-2"
+  | "zap"
+  | "layers"
+  | "database"
+  | "clock";
 
 /**
  * Size to pixel mapping.
@@ -464,6 +476,123 @@ function renderIcon(name: IconName, color: string) {
           <Line x1="3" y1="6" x2="3.01" y2="6" />
           <Line x1="3" y1="12" x2="3.01" y2="12" />
           <Line x1="3" y1="18" x2="3.01" y2="18" />
+        </>
+      );
+
+    case "arrow-up-down":
+      return (
+        <>
+          <Path d="m21 16-4 4-4-4" />
+          <Path d="M17 20V4" />
+          <Path d="m3 8 4-4 4 4" />
+          <Path d="M7 4v16" />
+        </>
+      );
+
+    case "skull":
+      // Cute skull with X eyes - used for offline/dead state
+      return (
+        <>
+          {/* Skull head shape */}
+          <Path d="M12 2C8 2 4 5.6 4 10c0 2.5 1 4.5 2.5 6v4.5a1.5 1.5 0 0 0 1.5 1.5h8a1.5 1.5 0 0 0 1.5-1.5V16c1.5-1.5 2.5-3.5 2.5-6 0-4.4-4-8-8-8z" />
+          {/* Left X eye */}
+          <Line x1="7.5" y1="9" x2="10.5" y2="12" />
+          <Line x1="10.5" y1="9" x2="7.5" y2="12" />
+          {/* Right X eye */}
+          <Line x1="13.5" y1="9" x2="16.5" y2="12" />
+          <Line x1="16.5" y1="9" x2="13.5" y2="12" />
+          {/* Nose hole */}
+          <Path d="M12 14v2" />
+          {/* Teeth lines */}
+          <Line x1="9" y1="18" x2="9" y2="22" />
+          <Line x1="12" y1="18" x2="12" y2="22" />
+          <Line x1="15" y1="18" x2="15" y2="22" />
+        </>
+      );
+
+    case "wifi-off":
+      // Wifi disconnected - alternative offline indicator
+      return (
+        <>
+          <Line x1="1" y1="1" x2="23" y2="23" />
+          <Path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
+          <Path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
+          <Path d="M10.71 5.05A16 16 0 0 1 22.58 9" />
+          <Path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
+          <Path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+          <Line x1="12" y1="20" x2="12.01" y2="20" />
+        </>
+      );
+
+    case "trending-up":
+      // Upward trend line - for area charts
+      return (
+        <Polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+      );
+
+    case "trending-down":
+      // Downward trend line
+      return (
+        <Polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+      );
+
+    case "activity":
+      // Activity/pulse line - for line charts
+      return (
+        <Polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      );
+
+    case "bar-chart-2":
+      // Bar chart - for candlestick charts
+      return (
+        <>
+          <Line x1="18" y1="20" x2="18" y2="10" />
+          <Line x1="12" y1="20" x2="12" y2="4" />
+          <Line x1="6" y1="20" x2="6" y2="14" />
+        </>
+      );
+
+    case "zap":
+      // Lightning bolt / zap
+      return (
+        <Path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      );
+
+    case "layers":
+      // Stacked layers
+      return (
+        <>
+          <Path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <Polyline points="2 17 12 22 22 17" />
+          <Polyline points="2 12 12 17 22 12" />
+        </>
+      );
+
+    case "database":
+      // Database cylinder
+      return (
+        <>
+          <Path d="M12 2C6.48 2 2 4.24 2 7s4.48 5 10 5 10-2.24 10-5-4.48-5-10-5z" />
+          <Path d="M2 7v10c0 2.76 4.48 5 10 5s10-2.24 10-5V7" />
+          <Path d="M2 12c0 2.76 4.48 5 10 5s10-2.24 10-5" />
+        </>
+      );
+
+    case "clock":
+      // Clock face
+      return (
+        <>
+          <Circle cx="12" cy="12" r="10" />
+          <Polyline points="12 6 12 12 16 14" />
+        </>
+      );
+
+    case "check-circle":
+      // Checkmark in circle
+      return (
+        <>
+          <Path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <Polyline points="22 4 12 14.01 9 11.01" />
         </>
       );
 
