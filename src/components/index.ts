@@ -1,3 +1,4 @@
+export { AnimatedNumber, type AnimatedNumberProps } from "./animated-number";
 export { Avatar, type AvatarProps, type AvatarStatus } from "./avatar";
 export { Badge, type BadgeProps, type BadgeVariant } from "./badge";
 export { Button, type ButtonProps } from "./button/Button";

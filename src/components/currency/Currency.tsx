@@ -11,6 +11,7 @@ import { Typography } from "../../tokens";
 import { useThemeColors } from "../../context/ThemeContext";
 import { getThemedTextColor } from "../../helpers/useThemedColor";
 import { Number, type NumberFormat } from "../number/Number";
+import { AnimatedNumber } from "../animated-number/AnimatedNumber";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
 
@@ -66,6 +67,10 @@ export type CurrencyProps = {
   decimals?: number;
   /** Whether to format large numbers with compact notation (K, M, B, T) */
   compact?: boolean;
+  /** Enable slot machine animation on value changes */
+  animate?: boolean;
+  /** Animation duration in ms (default 300) */
+  animationDuration?: number;
   /** Text color appearance */
   appearance?: TextAppearance;
   /** Text size */
@@ -145,6 +150,8 @@ export function Currency({
   showPositiveSign = false,
   decimals = 2,
   compact = false,
+  animate = false,
+  animationDuration = 300,
   appearance = TextAppearance.Primary,
   size = Size.Medium,
   brightness = Brightness.None,
@@ -207,17 +214,10 @@ export function Currency({
   };
 
   // Use compact formatting if requested
+  // NOTE: Use ternary operators to avoid passing empty strings as View children
   if (compact) {
     const compactValue = formatCompact(value, decimals);
-    return (
-      <View style={styles.row}>
-        {sign && (
-          <RNText style={symbolTextStyle}>{sign}</RNText>
-        )}
-        <RNText style={symbolTextStyle}>{symbol}</RNText>
-        <RNText style={numberTextStyle}>{compactValue}</RNText>
-      </View>
-    );
+    return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><RNText style={numberTextStyle}>{compactValue}</RNText></View>);
   }
 
   const format: NumberFormat = {
@@ -225,24 +225,13 @@ export function Currency({
     decimals,
   };
 
-  return (
-    <View style={styles.row}>
-      {sign && (
-        <RNText style={symbolTextStyle}>{sign}</RNText>
-      )}
-      <RNText style={symbolTextStyle}>{symbol}</RNText>
-      <Number
-        value={Math.abs(value)}
-        format={format}
-        appearance={appearance}
-        size={size}
-        brightness={brightness}
-        weight={weight}
-        style={style}
-        {...props}
-      />
-    </View>
-  );
+  // Use AnimatedNumber for animated mode
+  // NOTE: Use ternary operators to avoid passing empty strings as View children
+  if (animate) {
+    return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><AnimatedNumber value={Math.abs(value)} decimals={decimals} separator="," animate={true} animationDuration={animationDuration} appearance={appearance} size={size} brightness={brightness} weight={weight} style={style} /></View>);
+  }
+
+  return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><Number value={Math.abs(value)} format={format} appearance={appearance} size={size} brightness={brightness} weight={weight} style={style} {...props} /></View>);
 }
 
 const styles = StyleSheet.create({

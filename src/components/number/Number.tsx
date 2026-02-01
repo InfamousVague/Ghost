@@ -385,26 +385,9 @@ export function Number({
   }
 
   // Render content with leading/trailing zeros at reduced opacity
-  const renderContent = () => (
-    <>
-      {formatted.prefix && (
-        <RNText style={symbolStyle}>{formatted.prefix}</RNText>
-      )}
-      {formatted.leadingZeros && (
-        <RNText style={dimmedStyle}>{formatted.leadingZeros}</RNText>
-      )}
-      <RNText style={textStyle}>{formatted.mainContent}</RNText>
-      {formatted.decimalContent && (
-        <RNText style={textStyle}>{formatted.decimalContent}</RNText>
-      )}
-      {formatted.trailingZeros && (
-        <RNText style={dimmedStyle}>{formatted.trailingZeros}</RNText>
-      )}
-      {formatted.suffix && (
-        <RNText style={symbolStyle}>{formatted.suffix}</RNText>
-      )}
-    </>
-  );
+  // NOTE: Use ternary operators to explicitly return null instead of falsy strings
+  // The && pattern can pass empty strings to View which triggers react-native-web errors
+  const renderContent = () => (<>{formatted.prefix ? <RNText style={symbolStyle}>{formatted.prefix}</RNText> : null}{formatted.leadingZeros ? <RNText style={dimmedStyle}>{formatted.leadingZeros}</RNText> : null}{formatted.mainContent ? <RNText style={textStyle}>{formatted.mainContent}</RNText> : null}{formatted.decimalContent ? <RNText style={textStyle}>{formatted.decimalContent}</RNText> : null}{formatted.trailingZeros ? <RNText style={dimmedStyle}>{formatted.trailingZeros}</RNText> : null}{formatted.suffix ? <RNText style={symbolStyle}>{formatted.suffix}</RNText> : null}</>);
 
   // For native with glow, use shadow properties
   if (hasGlow && Platform.OS !== "web") {
@@ -439,18 +422,12 @@ export function Number({
             {fullValue}
           </RNText>
         </View>
-        <View style={styles.row} {...props}>
-          {renderContent()}
-        </View>
+        <View style={styles.row} {...props}>{renderContent()}</View>
       </View>
     );
   }
 
-  return (
-    <View style={styles.row} {...props}>
-      {renderContent()}
-    </View>
-  );
+  return (<View style={styles.row} {...props}>{renderContent()}</View>);
 }
 
 /**

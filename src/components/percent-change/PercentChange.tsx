@@ -105,24 +105,8 @@ export function PercentChange({
     suffix: showPercent ? "%" : undefined,
   };
 
-  return (
-    <View style={[styles.container, style]}>
-      {showArrow && (isPositive || isNegative) && (
-        <Icon
-          name={isPositive ? "arrow-up" : "arrow-down"}
-          size={iconSize}
-          appearance={appearance}
-        />
-      )}
-      <Number
-        value={Math.abs(value)}
-        format={format}
-        appearance={appearance}
-        size={size}
-        weight={weight}
-      />
-    </View>
-  );
+  // NOTE: Use ternary to avoid any potential string values as View children
+  return (<View style={[styles.container, style]}>{showArrow && (isPositive || isNegative) ? <Icon name={isPositive ? "arrow-up" : "arrow-down"} size={iconSize} appearance={appearance} /> : null}<Number value={Math.abs(value)} format={format} appearance={appearance} size={size} weight={weight} /></View>);
 }
 
 const styles = StyleSheet.create({
