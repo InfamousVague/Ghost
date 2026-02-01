@@ -12,7 +12,7 @@ import { TextAppearance, Brightness, Size } from "../../enums";
 import { getBrightnessMultiplier } from "../../helpers";
 import { useThemeColors } from "../../context/ThemeContext";
 import { getThemedTextColor } from "../../helpers/useThemedColor";
-import { Typography, Shadow, getGlowMultiplier } from "../../tokens";
+import { Colors, Typography, Shadow, getGlowMultiplier } from "../../tokens";
 import { useLoading } from "../card/Card";
 
 

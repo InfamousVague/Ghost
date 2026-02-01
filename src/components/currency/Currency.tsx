@@ -64,6 +64,8 @@ export type CurrencyProps = {
   showPositiveSign?: boolean;
   /** Number of decimal places (defaults to 2) */
   decimals?: number;
+  /** Whether to format large numbers with compact notation (K, M, B, T) */
+  compact?: boolean;
   /** Text color appearance */
   appearance?: TextAppearance;
   /** Text size */
@@ -79,6 +81,26 @@ export type CurrencyProps = {
   /** Additional style overrides */
   style?: TextStyle;
 } & Omit<RNTextProps, "style" | "children">;
+
+/**
+ * Format a number with compact notation (K, M, B, T).
+ */
+function formatCompact(value: number, decimals: number): string {
+  const absValue = Math.abs(value);
+  if (absValue >= 1e12) {
+    return (absValue / 1e12).toFixed(decimals) + "T";
+  }
+  if (absValue >= 1e9) {
+    return (absValue / 1e9).toFixed(decimals) + "B";
+  }
+  if (absValue >= 1e6) {
+    return (absValue / 1e6).toFixed(decimals) + "M";
+  }
+  if (absValue >= 1e3) {
+    return (absValue / 1e3).toFixed(decimals) + "K";
+  }
+  return absValue.toFixed(decimals);
+}
 
 /**
  * Get the currency symbol from a currency code or return the input if it's already a symbol.
@@ -122,6 +144,7 @@ export function Currency({
   currency = "USD",
   showPositiveSign = false,
   decimals = 2,
+  compact = false,
   appearance = TextAppearance.Primary,
   size = Size.Medium,
   brightness = Brightness.None,
@@ -139,12 +162,11 @@ export function Currency({
   const fontSize = SIZE_MAP[size];
   const fontWeight = WEIGHT_MAP[weight];
   const lineHeight = fontSize * 1.5;
+  const color = getThemedTextColor(themeColors, appearance);
 
-  // Symbol is slightly smaller and uses primary accent color by default
+  // Symbol is slightly smaller and always uses primary accent color
   const symbolFontSize = fontSize * 0.85;
-  const symbolColor = appearance === TextAppearance.Primary
-    ? themeColors.accent.primary
-    : getThemedTextColor(themeColors, appearance);
+  const symbolColor = themeColors.accent.primary;
 
   // Loading state
   if (loading) {
@@ -168,16 +190,39 @@ export function Currency({
     sign = "-";
   }
 
-  const format: NumberFormat = {
-    separator: ",",
-    decimals,
-  };
-
   const symbolTextStyle: TextStyle = {
     fontSize: symbolFontSize,
     fontWeight,
     fontFamily: Typography.fontFamily.base,
     color: symbolColor,
+  };
+
+  const numberTextStyle: TextStyle = {
+    fontSize,
+    fontWeight,
+    fontFamily: Typography.fontFamily.base,
+    color,
+    lineHeight,
+    ...style,
+  };
+
+  // Use compact formatting if requested
+  if (compact) {
+    const compactValue = formatCompact(value, decimals);
+    return (
+      <View style={styles.row}>
+        {sign && (
+          <RNText style={symbolTextStyle}>{sign}</RNText>
+        )}
+        <RNText style={symbolTextStyle}>{symbol}</RNText>
+        <RNText style={numberTextStyle}>{compactValue}</RNText>
+      </View>
+    );
+  }
+
+  const format: NumberFormat = {
+    separator: ",",
+    decimals,
   };
 
   return (

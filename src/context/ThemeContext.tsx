@@ -47,7 +47,7 @@ const darkColors: ThemeColors = {
     strong: "#2A3142",
   },
   accent: {
-    primary: "#3C82FF",
+    primary: "#A78BFA",
   },
   status: {
     success: "#2FD575",
@@ -74,7 +74,7 @@ const lightColors: ThemeColors = {
     strong: "#cbd5e1",
   },
   accent: {
-    primary: "#2563eb",
+    primary: "#8B5CF6",
   },
   status: {
     success: "#16a34a",

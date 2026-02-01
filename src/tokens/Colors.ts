@@ -69,16 +69,16 @@ export const Colors = {
   },
   /** Brand and interactive accent colors */
   accent: {
-    /** Primary accent color */
-    primary: "#3C82FF",
+    /** Primary accent color - pastel purple */
+    primary: "#A78BFA",
     /** Primary accent hover state */
-    primaryHover: "#4F8FFF",
+    primaryHover: "#B794F6",
     /** Primary accent active/pressed state */
-    primaryActive: "#2E6DFF",
+    primaryActive: "#9775FA",
     /** Secondary accent color */
-    secondary: "#031226",
+    secondary: "#1A1625",
     /** Highlight accent color */
-    highlight: "#6F7CFF",
+    highlight: "#C4B5FD",
   },
   /** Semantic status colors */
   status: {

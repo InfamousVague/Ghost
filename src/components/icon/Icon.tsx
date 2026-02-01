@@ -50,7 +50,9 @@ export type IconName =
   | "error"
   | "success"
   | "sun"
-  | "moon";
+  | "moon"
+  | "grid"
+  | "list";
 
 /**
  * Size to pixel mapping.
@@ -441,6 +443,28 @@ function renderIcon(name: IconName, color: string) {
     case "moon":
       return (
         <Path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      );
+
+    case "grid":
+      return (
+        <>
+          <Rect x="3" y="3" width="7" height="7" />
+          <Rect x="14" y="3" width="7" height="7" />
+          <Rect x="14" y="14" width="7" height="7" />
+          <Rect x="3" y="14" width="7" height="7" />
+        </>
+      );
+
+    case "list":
+      return (
+        <>
+          <Line x1="8" y1="6" x2="21" y2="6" />
+          <Line x1="8" y1="12" x2="21" y2="12" />
+          <Line x1="8" y1="18" x2="21" y2="18" />
+          <Line x1="3" y1="6" x2="3.01" y2="6" />
+          <Line x1="3" y1="12" x2="3.01" y2="12" />
+          <Line x1="3" y1="18" x2="3.01" y2="18" />
+        </>
       );
 
     default:

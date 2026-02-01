@@ -207,6 +207,13 @@ function formatNumber(value: number, format: NumberFormat = {}): FormattedNumber
     mainFormatted = withSeparators.slice(splitIndex);
   }
 
+  // For values < 1, the integer part is "0" which should also be dimmed
+  // This makes prices like $0.0025 show the leading 0 as muted
+  if (mainFormatted === "0" && decPart) {
+    leadingZerosFormatted = leadingZerosFormatted + "0";
+    mainFormatted = "";
+  }
+
   // Process decimal part - separate trailing zeros
   let decimalContent = "";
   let trailingZeros = "";

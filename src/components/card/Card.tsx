@@ -362,6 +362,7 @@ const styles = StyleSheet.create({
   contentWrapper: {
     position: "relative",
     zIndex: 1,
+    flex: 1,
   },
   glowOverlay: {
     position: "absolute",
