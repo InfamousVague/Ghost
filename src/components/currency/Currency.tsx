@@ -7,8 +7,9 @@ import {
   type TextProps as RNTextProps,
 } from "react-native";
 import { TextAppearance, Brightness, Size } from "../../enums";
-import { Typography, Colors } from "../../tokens";
-import { getTextAppearanceColor } from "../../helpers";
+import { Typography } from "../../tokens";
+import { useThemeColors } from "../../context/ThemeContext";
+import { getThemedTextColor } from "../../helpers/useThemedColor";
 import { Number, type NumberFormat } from "../number/Number";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
@@ -132,6 +133,7 @@ export function Currency({
 }: CurrencyProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
   const symbol = getCurrencySymbol(currency);
   const fontSize = SIZE_MAP[size];
@@ -141,8 +143,8 @@ export function Currency({
   // Symbol is slightly smaller and uses primary accent color by default
   const symbolFontSize = fontSize * 0.85;
   const symbolColor = appearance === TextAppearance.Primary
-    ? Colors.accent.primary
-    : getTextAppearanceColor(appearance);
+    ? themeColors.accent.primary
+    : getThemedTextColor(themeColors, appearance);
 
   // Loading state
   if (loading) {

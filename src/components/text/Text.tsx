@@ -9,8 +9,10 @@ import {
   type TextProps as RNTextProps,
 } from "react-native";
 import { TextAppearance, Brightness, Size } from "../../enums";
-import { getTextAppearanceColor, getBrightnessMultiplier } from "../../helpers";
-import { Typography, Shadow, Colors, getGlowMultiplier } from "../../tokens";
+import { getBrightnessMultiplier } from "../../helpers";
+import { useThemeColors } from "../../context/ThemeContext";
+import { getThemedTextColor } from "../../helpers/useThemedColor";
+import { Typography, Shadow, getGlowMultiplier } from "../../tokens";
 import { useLoading } from "../card/Card";
 
 
@@ -111,8 +113,9 @@ export function Text({
 }: TextProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
-  const color = getTextAppearanceColor(appearance);
+  const color = getThemedTextColor(themeColors, appearance);
   const fontSize = SIZE_MAP[size];
   const fontWeight = WEIGHT_MAP[weight];
   const lineHeight = fontSize * 1.5;
