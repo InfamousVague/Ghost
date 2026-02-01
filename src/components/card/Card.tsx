@@ -62,11 +62,25 @@ export enum CardGlow {
 }
 
 /**
+ * Card visual variant.
+ */
+export enum CardVariant {
+  /** Default - same background as canvas (for fancy borders/glows) */
+  Default = "default",
+  /** Raised - slightly lighter background for simple cards */
+  Raised = "raised",
+  /** Surface - subtle background difference */
+  Surface = "surface",
+}
+
+/**
  * Props for the Card component.
  */
 export type CardProps = {
   /** Card content */
   children: React.ReactNode;
+  /** Visual variant controlling background color */
+  variant?: CardVariant;
   /** Border radius style */
   shape?: Shape;
   /** Border style */
@@ -83,8 +97,12 @@ export type CardProps = {
   style?: ViewStyle;
 } & Omit<ViewProps, "style">;
 
-/** Jet black background color */
-const CARD_BACKGROUND = Colors.background.canvas;
+/** Background colors by variant */
+const VARIANT_BACKGROUNDS: Record<CardVariant, string> = {
+  [CardVariant.Default]: Colors.background.canvas,
+  [CardVariant.Surface]: Colors.background.surface,
+  [CardVariant.Raised]: Colors.background.raised,
+};
 
 /** Subtle border color */
 const BORDER_SUBTLE = Colors.border.subtle;
@@ -144,6 +162,7 @@ const BORDER_COLORS: Record<CardGlow, string> = {
  */
 export function Card({
   children,
+  variant = CardVariant.Default,
   shape = Shape.Rounded,
   border = CardBorder.Solid,
   glow,
@@ -154,6 +173,7 @@ export function Card({
   ...props
 }: CardProps) {
   const borderRadius = parseFloat(getShapeRadius(shape)) || 12;
+  const backgroundColor = VARIANT_BACKGROUNDS[variant];
 
   // Get aligned glow config (position + matching border gradient)
   const glowConfig = getGlowConfig(seed);
@@ -164,7 +184,7 @@ export function Card({
 
   // Base card style
   const cardStyle: ViewStyle = {
-    backgroundColor: CARD_BACKGROUND,
+    backgroundColor,
     borderRadius,
     padding,
     overflow: "hidden",
