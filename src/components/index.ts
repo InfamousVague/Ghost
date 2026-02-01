@@ -10,6 +10,7 @@ export { Icon, type IconProps, type IconName } from "./icon/Icon";
 export { Input, type InputProps } from "./input/Input";
 export { LinearGradient, type LinearGradientProps } from "./card/LinearGradient";
 export { Number, type NumberProps, type NumberFormat } from "./number/Number";
+export { PercentChange, type PercentChangeProps } from "./percent-change";
 export { ProgressBar, type ProgressBarProps } from "./progress-bar";
 export { ProgressCircle, type ProgressCircleProps } from "./progress-circle";
 export { Skeleton, TextSkeleton, type SkeletonProps, type TextSkeletonProps } from "./skeleton/Skeleton";
