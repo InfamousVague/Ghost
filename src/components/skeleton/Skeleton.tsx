@@ -90,29 +90,18 @@ export function Skeleton({
     ...style,
   };
 
-  // For web, use CSS animation
+  // For web, use CSS animation with global keyframes
   if (Platform.OS === "web") {
-    const keyframeId = `skeleton-pulse-${Math.random().toString(36).substr(2, 9)}`;
-
     return (
       <View style={containerStyle}>
-        <style>
-          {`
-            @keyframes ${keyframeId} {
-              0%, 100% {
-                opacity: 0;
-              }
-              50% {
-                opacity: 1;
-              }
-            }
-          `}
-        </style>
         <View
           style={[
             styles.pulseLayer,
             {
-              animation: `${keyframeId} ${duration}ms infinite ease-in-out`,
+              animationName: "skeleton-pulse",
+              animationDuration: `${duration}ms`,
+              animationIterationCount: "infinite",
+              animationTimingFunction: "ease-in-out",
             } as any,
           ]}
         />

@@ -2,6 +2,7 @@ export { Avatar, type AvatarProps, type AvatarStatus } from "./avatar";
 export { Badge, type BadgeProps, type BadgeVariant } from "./badge";
 export { Button, type ButtonProps } from "./button/Button";
 export { Card, CardBorder, CardGlow, LoadingContext, useLoading, type CardProps } from "./card/Card";
+export { Chart, type ChartProps } from "./chart";
 export { Checkbox, type CheckboxProps } from "./checkbox/Checkbox";
 export { Currency, type CurrencyProps } from "./currency/Currency";
 export { Divider, type DividerProps } from "./divider";
