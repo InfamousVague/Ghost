@@ -19,6 +19,10 @@ import { Button } from 'ghost/components';
 | `brightness` | `Brightness` | `Base` | Glow intensity |
 | `onPress` | `() => void` | - | Press handler |
 | `disabled` | `boolean` | `false` | Disabled state |
+| `loading` | `boolean` | `false` | Loading state (shows skeleton) |
+| `iconLeft` | `IconName` | - | Icon before label |
+| `iconRight` | `IconName` | - | Icon after label |
+| `backgroundOpacity` | `number` | - | Background opacity (0-1), enables soft color mode |
 
 ## Basic Usage
 
@@ -82,6 +86,38 @@ import { Brightness } from 'ghost/enums';
 
 ```tsx
 <Button label="Disabled" disabled />
+```
+
+## Semi-Transparent Background
+
+Use `backgroundOpacity` for soft-colored buttons like trade indicators. When set, the background becomes semi-transparent and the text/icon color matches the appearance color.
+
+```tsx
+import { Appearance } from 'ghost/enums';
+
+// Soft green button (like trade tags)
+<Button
+  label="Gainers"
+  iconLeft="trending-up"
+  appearance={Appearance.Success}
+  backgroundOpacity={0.15}
+/>
+
+// Soft red button
+<Button
+  label="Losers"
+  iconLeft="trending-down"
+  appearance={Appearance.Danger}
+  backgroundOpacity={0.15}
+/>
+```
+
+## With Icons
+
+```tsx
+<Button label="Back" iconLeft="arrow-left" appearance={Appearance.Ghost} />
+<Button label="Next" iconRight="arrow-right" />
+<Button label="Download" iconLeft="download" iconRight="external-link" />
 ```
 
 ## Complete Example

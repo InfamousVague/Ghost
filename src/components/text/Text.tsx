@@ -4,6 +4,7 @@ import {
   View,
   Platform,
   StyleSheet,
+  StyleProp,
   type TextStyle,
   type ViewStyle,
   type TextProps as RNTextProps,
@@ -37,7 +38,7 @@ export type TextProps = {
   /** Number of skeleton lines when loading */
   skeletonLines?: number;
   /** Additional style overrides */
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
 } & Omit<RNTextProps, "style">;
 
 /**
@@ -49,8 +50,8 @@ const SIZE_MAP: Record<Size, number> = {
   [Size.Small]: 14,
   [Size.Medium]: 16,
   [Size.Large]: 18,
-  [Size.ExtraLarge]: 20,
-  [Size.TwoXLarge]: 24,
+  [Size.ExtraLarge]: 24,
+  [Size.TwoXLarge]: 32,
 };
 
 /**
@@ -125,13 +126,16 @@ export function Text({
   const glowColor = GLOW_COLORS[appearance];
   const hasGlow = glowColor && brightnessMultiplier > 0;
 
+  // Flatten style array if needed
+  const flattenedStyle = StyleSheet.flatten(style);
+
   const textStyle: TextStyle = {
     color,
     fontSize,
     fontWeight,
     lineHeight,
     fontFamily: Typography.fontFamily.base,
-    ...style,
+    ...flattenedStyle,
   };
 
   // Loading state - show skeleton

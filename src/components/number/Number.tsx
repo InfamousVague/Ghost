@@ -50,6 +50,8 @@ export type NumberProps = {
   brightness?: Brightness;
   /** Font weight */
   weight?: "regular" | "medium" | "semibold" | "bold";
+  /** Use monospace font for fixed-width digits (prevents layout shift) */
+  mono?: boolean;
   /** Whether the component is in loading state */
   loading?: boolean;
   /** Width for skeleton when loading (defaults to auto-calculated based on expected digits) */
@@ -67,8 +69,8 @@ const SIZE_MAP: Record<Size, number> = {
   [Size.Small]: 14,
   [Size.Medium]: 16,
   [Size.Large]: 18,
-  [Size.ExtraLarge]: 20,
-  [Size.TwoXLarge]: 24,
+  [Size.ExtraLarge]: 24,
+  [Size.TwoXLarge]: 32,
 };
 
 /**
@@ -295,6 +297,7 @@ export function Number({
   size = Size.Medium,
   brightness = Brightness.None,
   weight = "regular",
+  mono = false,
   loading: loadingProp = false,
   skeletonWidth,
   style,
@@ -322,9 +325,8 @@ export function Number({
     fontSize,
     fontWeight,
     lineHeight,
-    fontFamily: Typography.fontFamily.base,
-    // Use tabular (monospace) numbers for alignment
-    fontVariant: ["tabular-nums"],
+    fontFamily: mono ? Typography.fontFamily.mono : Typography.fontFamily.base,
+    // Note: fontVariant removed - not supported on web with react-native-web
   };
 
   const textStyle: TextStyle = {

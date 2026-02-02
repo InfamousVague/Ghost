@@ -39,8 +39,8 @@ const SIZE_MAP: Record<Size, number> = {
   [Size.Small]: 14,
   [Size.Medium]: 16,
   [Size.Large]: 18,
-  [Size.ExtraLarge]: 20,
-  [Size.TwoXLarge]: 24,
+  [Size.ExtraLarge]: 24,
+  [Size.TwoXLarge]: 32,
 };
 
 /**
@@ -71,6 +71,8 @@ export type CurrencyProps = {
   animate?: boolean;
   /** Animation duration in ms (default 300) */
   animationDuration?: number;
+  /** Use monospace font for fixed-width digits (prevents layout shift) */
+  mono?: boolean;
   /** Text color appearance */
   appearance?: TextAppearance;
   /** Text size */
@@ -152,6 +154,7 @@ export function Currency({
   compact = false,
   animate = false,
   animationDuration = 300,
+  mono = false,
   appearance = TextAppearance.Primary,
   size = Size.Medium,
   brightness = Brightness.None,
@@ -164,6 +167,10 @@ export function Currency({
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
   const themeColors = useThemeColors();
+
+  // Handle NaN, undefined, or non-finite values by treating them as 0
+  // Note: Using globalThis.Number because 'Number' is shadowed by the imported component
+  const safeValue = globalThis.Number.isFinite(value) ? value : 0;
 
   const symbol = getCurrencySymbol(currency);
   const fontSize = SIZE_MAP[size];
@@ -191,23 +198,25 @@ export function Currency({
 
   // Build sign
   let sign = "";
-  if (showPositiveSign && value > 0) {
+  if (showPositiveSign && safeValue > 0) {
     sign = "+";
-  } else if (value < 0) {
+  } else if (safeValue < 0) {
     sign = "-";
   }
+
+  const fontFamily = mono ? Typography.fontFamily.mono : Typography.fontFamily.base;
 
   const symbolTextStyle: TextStyle = {
     fontSize: symbolFontSize,
     fontWeight,
-    fontFamily: Typography.fontFamily.base,
+    fontFamily,
     color: symbolColor,
   };
 
   const numberTextStyle: TextStyle = {
     fontSize,
     fontWeight,
-    fontFamily: Typography.fontFamily.base,
+    fontFamily,
     color,
     lineHeight,
     ...style,
@@ -216,7 +225,7 @@ export function Currency({
   // Use compact formatting if requested
   // NOTE: Use ternary operators to avoid passing empty strings as View children
   if (compact) {
-    const compactValue = formatCompact(value, decimals);
+    const compactValue = formatCompact(safeValue, decimals);
     return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><RNText style={numberTextStyle}>{compactValue}</RNText></View>);
   }
 
@@ -228,10 +237,10 @@ export function Currency({
   // Use AnimatedNumber for animated mode
   // NOTE: Use ternary operators to avoid passing empty strings as View children
   if (animate) {
-    return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><AnimatedNumber value={Math.abs(value)} decimals={decimals} separator="," animate={true} animationDuration={animationDuration} appearance={appearance} size={size} brightness={brightness} weight={weight} style={style} /></View>);
+    return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><AnimatedNumber value={Math.abs(safeValue)} decimals={decimals} separator="," animate={true} animationDuration={animationDuration} appearance={appearance} size={size} brightness={brightness} weight={weight} style={style} /></View>);
   }
 
-  return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><Number value={Math.abs(value)} format={format} appearance={appearance} size={size} brightness={brightness} weight={weight} style={style} {...props} /></View>);
+  return (<View style={styles.row}>{sign ? <RNText style={symbolTextStyle}>{sign}</RNText> : null}<RNText style={symbolTextStyle}>{symbol}</RNText><Number value={Math.abs(safeValue)} format={format} appearance={appearance} size={size} brightness={brightness} weight={weight} mono={mono} style={style} {...props} /></View>);
 }
 
 const styles = StyleSheet.create({

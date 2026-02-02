@@ -64,7 +64,11 @@ export type IconName =
   | "zap"
   | "layers"
   | "database"
-  | "clock";
+  | "clock"
+  | "coins"
+  | "building-2"
+  | "pie-chart"
+  | "power";
 
 /**
  * Size to pixel mapping.
@@ -593,6 +597,49 @@ function renderIcon(name: IconName, color: string) {
         <>
           <Path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
           <Polyline points="22 4 12 14.01 9 11.01" />
+        </>
+      );
+
+    case "coins":
+      // Stack of coins - for crypto
+      return (
+        <>
+          <Circle cx="8" cy="8" r="6" />
+          <Path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+          <Line x1="7" y1="6" x2="7.01" y2="6" />
+          <Line x1="9" y1="10" x2="9.01" y2="10" />
+        </>
+      );
+
+    case "building-2":
+      // Office building - for stocks
+      return (
+        <>
+          <Path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+          <Path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+          <Path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+          <Path d="M10 6h4" />
+          <Path d="M10 10h4" />
+          <Path d="M10 14h4" />
+          <Path d="M10 18h4" />
+        </>
+      );
+
+    case "pie-chart":
+      // Pie chart - for ETFs
+      return (
+        <>
+          <Path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+          <Path d="M22 12A10 10 0 0 0 12 2v10z" />
+        </>
+      );
+
+    case "power":
+      // Power button - circle with line at top
+      return (
+        <>
+          <Path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+          <Line x1="12" y1="2" x2="12" y2="12" />
         </>
       );
 

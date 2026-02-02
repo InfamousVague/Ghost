@@ -81,8 +81,12 @@ export function PercentChange({
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
 
-  const isPositive = value > 0;
-  const isNegative = value < 0;
+  // Handle NaN, undefined, or non-finite values by treating them as 0
+  // Note: Using globalThis.Number because 'Number' is shadowed by the imported component
+  const safeValue = globalThis.Number.isFinite(value) ? value : 0;
+
+  const isPositive = safeValue > 0;
+  const isNegative = safeValue < 0;
   const appearance = isPositive
     ? TextAppearance.Success
     : isNegative
@@ -106,7 +110,7 @@ export function PercentChange({
   };
 
   // NOTE: Use ternary to avoid any potential string values as View children
-  return (<View style={[styles.container, style]}>{showArrow && (isPositive || isNegative) ? <Icon name={isPositive ? "arrow-up" : "arrow-down"} size={iconSize} appearance={appearance} /> : null}<Number value={Math.abs(value)} format={format} appearance={appearance} size={size} weight={weight} /></View>);
+  return (<View style={[styles.container, style]}>{showArrow && (isPositive || isNegative) ? <Icon name={isPositive ? "arrow-up" : "arrow-down"} size={iconSize} appearance={appearance} /> : null}<Number value={Math.abs(safeValue)} format={format} appearance={appearance} size={size} weight={weight} /></View>);
 }
 
 const styles = StyleSheet.create({

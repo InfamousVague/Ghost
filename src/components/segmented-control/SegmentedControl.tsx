@@ -42,7 +42,13 @@ export type SegmentedControlProps<T extends string = string> = {
 /**
  * Size to style mapping.
  */
+/**
+ * Size to style mapping.
+ * Heights are designed to match Select and FilterChip components:
+ * TwoXSmall: 24px, ExtraSmall: 28px, Small: 32px, Medium: 36px, Large: 40px, etc.
+ */
 const SIZE_MAP: Record<Size, {
+  height: number;
   padding: number;
   paddingHorizontal: number;
   gap: number;
@@ -51,13 +57,13 @@ const SIZE_MAP: Record<Size, {
   borderRadius: number;
   innerRadius: number;
 }> = {
-  [Size.TwoXSmall]: { padding: 2, paddingHorizontal: 6, gap: 4, fontSize: Size.TwoXSmall, iconSize: Size.TwoXSmall, borderRadius: 6, innerRadius: 4 },
-  [Size.ExtraSmall]: { padding: 3, paddingHorizontal: 8, gap: 4, fontSize: Size.TwoXSmall, iconSize: Size.ExtraSmall, borderRadius: 8, innerRadius: 5 },
-  [Size.Small]: { padding: 4, paddingHorizontal: 10, gap: 6, fontSize: Size.ExtraSmall, iconSize: Size.ExtraSmall, borderRadius: 8, innerRadius: 5 },
-  [Size.Medium]: { padding: 4, paddingHorizontal: 12, gap: 6, fontSize: Size.ExtraSmall, iconSize: Size.Small, borderRadius: 10, innerRadius: 6 },
-  [Size.Large]: { padding: 5, paddingHorizontal: 14, gap: 8, fontSize: Size.Small, iconSize: Size.Small, borderRadius: 12, innerRadius: 8 },
-  [Size.ExtraLarge]: { padding: 6, paddingHorizontal: 16, gap: 8, fontSize: Size.Medium, iconSize: Size.Medium, borderRadius: 14, innerRadius: 10 },
-  [Size.TwoXLarge]: { padding: 8, paddingHorizontal: 20, gap: 10, fontSize: Size.Large, iconSize: Size.Medium, borderRadius: 16, innerRadius: 12 },
+  [Size.TwoXSmall]: { height: 24, padding: 2, paddingHorizontal: 6, gap: 4, fontSize: Size.TwoXSmall, iconSize: Size.TwoXSmall, borderRadius: 6, innerRadius: 4 },
+  [Size.ExtraSmall]: { height: 28, padding: 2, paddingHorizontal: 8, gap: 4, fontSize: Size.TwoXSmall, iconSize: Size.ExtraSmall, borderRadius: 8, innerRadius: 5 },
+  [Size.Small]: { height: 32, padding: 3, paddingHorizontal: 10, gap: 6, fontSize: Size.ExtraSmall, iconSize: Size.ExtraSmall, borderRadius: 8, innerRadius: 5 },
+  [Size.Medium]: { height: 36, padding: 3, paddingHorizontal: 12, gap: 6, fontSize: Size.ExtraSmall, iconSize: Size.Small, borderRadius: 10, innerRadius: 6 },
+  [Size.Large]: { height: 40, padding: 4, paddingHorizontal: 14, gap: 8, fontSize: Size.Small, iconSize: Size.Small, borderRadius: 12, innerRadius: 8 },
+  [Size.ExtraLarge]: { height: 44, padding: 4, paddingHorizontal: 16, gap: 8, fontSize: Size.Medium, iconSize: Size.Medium, borderRadius: 14, innerRadius: 10 },
+  [Size.TwoXLarge]: { height: 48, padding: 5, paddingHorizontal: 20, gap: 10, fontSize: Size.Large, iconSize: Size.Medium, borderRadius: 16, innerRadius: 12 },
 };
 
 /**
@@ -124,6 +130,8 @@ export function SegmentedControl<T extends string = string>({
 
   const containerStyle: ViewStyle = {
     flexDirection: "row",
+    alignItems: "center",
+    height: sizeStyles.height,
     backgroundColor: Colors.background.surface,
     borderRadius: sizeStyles.borderRadius,
     padding: sizeStyles.padding,
@@ -146,9 +154,10 @@ export function SegmentedControl<T extends string = string>({
             style={[
               styles.segment,
               {
+                flex: 1,
+                height: sizeStyles.height - (sizeStyles.padding * 2),
                 backgroundColor: isSelected ? Colors.background.raised : "transparent",
                 paddingHorizontal: sizeStyles.paddingHorizontal,
-                paddingVertical: sizeStyles.padding + 4,
                 borderRadius: sizeStyles.innerRadius,
                 gap: sizeStyles.gap,
               },

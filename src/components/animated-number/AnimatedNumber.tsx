@@ -58,8 +58,8 @@ const SIZE_MAP: Record<Size, number> = {
   [Size.Small]: 14,
   [Size.Medium]: 16,
   [Size.Large]: 18,
-  [Size.ExtraLarge]: 20,
-  [Size.TwoXLarge]: 24,
+  [Size.ExtraLarge]: 24,
+  [Size.TwoXLarge]: 32,
 };
 
 /**
@@ -186,7 +186,7 @@ function AnimatedDigit({
     fontSize,
     fontWeight,
     fontFamily: Typography.fontFamily.base,
-    fontVariant: ["tabular-nums"],
+    // fontVariant removed - not supported on web
     color,
     lineHeight,
     textAlign: "center",
@@ -324,7 +324,7 @@ export function AnimatedNumber({
       fontSize,
       fontWeight,
       fontFamily: Typography.fontFamily.base,
-      fontVariant: ["tabular-nums"],
+      // fontVariant removed - not supported on web
       color,
       lineHeight,
       ...glowStyle,

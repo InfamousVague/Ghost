@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
@@ -86,6 +86,7 @@ export function Avatar({
 }: AvatarProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const [imageError, setImageError] = useState(false);
 
   const config = SIZE_MAP[size];
   const imageSource = source || (uri ? { uri } : undefined);
@@ -126,14 +127,18 @@ export function Avatar({
     borderColor: Colors.background.canvas,
   };
 
+  // Show initials fallback if image failed to load or no image source
+  const showInitials = imageError || !imageSource;
+
   return (
     <View style={{ position: "relative" }}>
       <View style={containerStyle}>
-        {imageSource ? (
+        {!showInitials && imageSource ? (
           <Image
             source={imageSource}
             style={styles.image}
             resizeMode="cover"
+            onError={() => setImageError(true)}
           />
         ) : initials ? (
           <Text

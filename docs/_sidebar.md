@@ -12,11 +12,12 @@
 - Enums
   - [Overview](enums/)
   - [Appearance](enums/appearance.md)
-  - [Size](enums/size.md)
-  - [Shape](enums/shape.md)
-  - [Theme](enums/theme.md)
-  - [TextAppearance](enums/text-appearance.md)
   - [Brightness](enums/brightness.md)
+  - [Intensity](enums/intensity.md)
+  - [Shape](enums/shape.md)
+  - [Size](enums/size.md)
+  - [TextAppearance](enums/text-appearance.md)
+  - [Theme](enums/theme.md)
 - Helpers
   - [Overview](helpers/)
   - [getAppearanceColor](helpers/get-appearance-color.md)
@@ -43,5 +44,6 @@
   - [SegmentedControl](components/segmented-control.md)
   - [Skeleton](components/skeleton.md)
   - [Slider](components/slider.md)
+  - [Tag](components/tag.md)
   - [Text](components/text.md)
   - [Toggle](components/toggle.md)

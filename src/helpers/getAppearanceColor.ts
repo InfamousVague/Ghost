@@ -17,7 +17,7 @@
  */
 
 import { Platform } from "react-native";
-import { Appearance, Theme } from "../enums";
+import { Appearance, Intensity, Theme } from "../enums";
 import { Colors, Shadow, getGlowMultiplier, getCurrentTheme } from "../tokens";
 
 /**
@@ -135,6 +135,31 @@ const appearanceConfig: Record<Appearance, AppearanceConfig> = {
 };
 
 /**
+ * Dim intensity color configurations for Success and Danger.
+ * Uses softer, less saturated colors for subtle indicators.
+ */
+const dimIntensityConfig: Partial<Record<Appearance, AppearanceConfig>> = {
+  [Appearance.Success]: {
+    background: Colors.status.successDimSurface,
+    backgroundHover: Colors.status.successDimSurface,
+    backgroundActive: Colors.status.successDimSurface,
+    text: () => Colors.status.successDim,
+    border: Colors.status.successDim,
+    glowColor: Colors.status.successDim,
+    glowMixOffset: 0.05,
+  },
+  [Appearance.Danger]: {
+    background: Colors.status.dangerDimSurface,
+    backgroundHover: Colors.status.dangerDimSurface,
+    backgroundActive: Colors.status.dangerDimSurface,
+    text: () => Colors.status.dangerDim,
+    border: Colors.status.dangerDim,
+    glowColor: Colors.status.dangerDim,
+    glowMixOffset: 0.05,
+  },
+};
+
+/**
  * Empty shadow for when glow is disabled.
  */
 const noShadow: ShadowStyle = {
@@ -226,6 +251,7 @@ function clamp(value: number, min: number, max: number): number {
  *
  * @param appearance - The appearance variant
  * @param brightnessMultiplier - Optional multiplier for glow intensity (default: 1)
+ * @param intensity - Optional intensity level for color saturation (default: Normal)
  * @returns Complete color set with background, text, border, and shadow
  *
  * @example
@@ -236,13 +262,22 @@ function clamp(value: number, min: number, max: number): number {
  *   color: colors.text,
  *   ...colors.shadow, // Spread shadow styles
  * };
+ *
+ * // Using dim intensity for subtle indicators
+ * const dimColors = getAppearanceColor(Appearance.Success, 1, Intensity.Dim);
  * ```
  */
 export function getAppearanceColor(
   appearance: Appearance,
-  brightnessMultiplier = 1
+  brightnessMultiplier = 1,
+  intensity: Intensity = Intensity.Normal
 ): AppearanceColorSet {
-  const config = appearanceConfig[appearance];
+  // Use dim config if available and intensity is Dim
+  const config =
+    intensity === Intensity.Dim && dimIntensityConfig[appearance]
+      ? dimIntensityConfig[appearance]!
+      : appearanceConfig[appearance];
+
   const theme = getCurrentTheme();
   const text = config.text(theme);
   const baseMix = Shadow.glow.defaultMix + (config.glowMixOffset ?? 0);

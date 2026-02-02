@@ -86,6 +86,10 @@ export const Colors = {
     success: "#2FD575",
     /** Success surface/background */
     successSurface: "#102820",
+    /** Success dim - softer green for subtle indicators */
+    successDim: "#4CAF82",
+    /** Success dim surface - muted green background */
+    successDimSurface: "#0D201A",
     /** Warning/caution color */
     warning: "#F6C94C",
     /** Warning surface/background */
@@ -94,6 +98,10 @@ export const Colors = {
     danger: "#FF5C7A",
     /** Danger surface/background */
     dangerSurface: "#2C151D",
+    /** Danger dim - softer red for subtle indicators */
+    dangerDim: "#E57A8C",
+    /** Danger dim surface - muted red background */
+    dangerDimSurface: "#231519",
     /** Info/informational color */
     info: "#4CC3FF",
     /** Info surface/background */

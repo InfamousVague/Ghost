@@ -51,6 +51,8 @@ export type ProgressBarProps = {
   size?: Size;
   /** Color appearance */
   appearance?: TextAppearance;
+  /** Custom color (overrides appearance) */
+  color?: string;
   /** Glow intensity */
   brightness?: Brightness;
   /** Whether to show as indeterminate */
@@ -79,6 +81,7 @@ export function ProgressBar({
   max = 100,
   size = Size.Medium,
   appearance = TextAppearance.Primary,
+  color,
   brightness = Brightness.None,
   indeterminate = false,
   loading: loadingProp = false,
@@ -89,7 +92,8 @@ export function ProgressBar({
 
   const height = SIZE_MAP[size];
   const progress = Math.min(Math.max((value / max) * 100, 0), 100);
-  const fillColor = APPEARANCE_COLORS[appearance];
+  // Use custom color if provided, otherwise use appearance color
+  const fillColor = color ?? APPEARANCE_COLORS[appearance];
 
   const brightnessMultiplier = getBrightnessMultiplier(brightness);
   const hasGlow = brightnessMultiplier > 0;

@@ -8,6 +8,7 @@ import {
 } from "../../helpers";
 import { Typography, Colors } from "../../tokens";
 import { Skeleton } from "../skeleton/Skeleton";
+import { Icon, type IconName } from "../icon/Icon";
 
 /**
  * Props for the Button component.
@@ -29,6 +30,16 @@ export type ButtonProps = {
   disabled?: boolean;
   /** Whether the button is in loading state */
   loading?: boolean;
+  /** Icon to display on the left side of the label */
+  iconLeft?: IconName;
+  /** Icon to display on the right side of the label */
+  iconRight?: IconName;
+  /**
+   * Background opacity (0-1). When set, creates a semi-transparent background
+   * and uses the appearance's base color for text/icons instead of the default text color.
+   * Useful for soft-colored buttons like trade indicators.
+   */
+  backgroundOpacity?: number;
 };
 
 /**
@@ -54,6 +65,18 @@ export type ButtonProps = {
  * />
  * ```
  */
+/**
+ * Converts a hex color to rgba with the specified opacity.
+ */
+function hexToRgba(hex: string, opacity: number): string {
+  const normalized = hex.replace("#", "");
+  const bigint = parseInt(normalized, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
 export function Button({
   label,
   appearance = Appearance.Primary,
@@ -63,6 +86,9 @@ export function Button({
   onPress,
   disabled = false,
   loading = false,
+  iconLeft,
+  iconRight,
+  backgroundOpacity,
 }: ButtonProps) {
   const brightnessMultiplier = getBrightnessMultiplier(brightness);
   const appearanceColors = getAppearanceColor(appearance, brightnessMultiplier);
@@ -74,25 +100,47 @@ export function Button({
   const paddingHorizontal = parseFloat(sizeStyles.paddingHorizontal) * 16;
   const parsedBorderRadius = parseFloat(borderRadius) || 9999;
 
+  // When backgroundOpacity is set, use semi-transparent background with colored text
+  const useTransparentStyle = backgroundOpacity !== undefined && backgroundOpacity < 1;
+  const effectiveBackground = useTransparentStyle
+    ? hexToRgba(appearanceColors.background, backgroundOpacity)
+    : appearanceColors.background;
+  const effectiveTextColor = useTransparentStyle
+    ? appearanceColors.background // Use the appearance color as text color
+    : appearanceColors.text;
+  const effectiveBorderColor = useTransparentStyle
+    ? "transparent"
+    : appearanceColors.border;
+
+  const hasIcon = iconLeft || iconRight;
   const containerStyle: ViewStyle = {
+    flexDirection: hasIcon ? "row" : undefined,
+    gap: hasIcon ? 6 : undefined,
     paddingVertical,
     paddingHorizontal,
     borderRadius: parsedBorderRadius,
     borderWidth: 1,
-    borderColor: loading ? Colors.border.subtle : appearanceColors.border,
-    backgroundColor: loading ? Colors.background.raised : appearanceColors.background,
+    borderColor: loading ? Colors.border.subtle : effectiveBorderColor,
+    backgroundColor: loading ? Colors.background.raised : effectiveBackground,
     opacity: disabled ? 0.5 : 1,
     alignItems: "center",
     justifyContent: "center",
-    // Spread cross-platform shadow styles (not for loading state)
-    ...(loading ? {} : appearanceColors.shadow),
+    // Spread cross-platform shadow styles (not for loading state, and disable for transparent style)
+    ...(loading || useTransparentStyle ? {} : appearanceColors.shadow),
   };
+
+  // Icon size based on button size
+  const iconSize = size === Size.Large || size === Size.ExtraLarge
+    ? Size.Small
+    : size === Size.Medium
+    ? Size.ExtraSmall
+    : Size.TwoXSmall;
 
   const textStyle: TextStyle = {
     fontSize,
     fontWeight: Typography.fontWeight.medium as TextStyle["fontWeight"],
     lineHeight: fontSize * 1.5,
-    color: appearanceColors.text,
+    color: effectiveTextColor,
   };
 
   // Loading state - show full skeleton shape
@@ -118,7 +166,9 @@ export function Button({
       accessibilityRole="button"
       accessibilityState={{ disabled }}
     >
+      {iconLeft && <Icon name={iconLeft} size={iconSize} color={effectiveTextColor} />}
       <Text style={textStyle}>{label}</Text>
+      {iconRight && <Icon name={iconRight} size={iconSize} color={effectiveTextColor} />}
     </Pressable>
   );
 }

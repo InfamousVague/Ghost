@@ -21,6 +21,7 @@ export type ThemeColors = {
   };
   accent: {
     primary: string;
+    secondary: string;
   };
   status: {
     success: string;
@@ -48,6 +49,7 @@ const darkColors: ThemeColors = {
   },
   accent: {
     primary: "#A78BFA",
+    secondary: "#1A1625",
   },
   status: {
     success: "#2FD575",
@@ -75,6 +77,7 @@ const lightColors: ThemeColors = {
   },
   accent: {
     primary: "#8B5CF6",
+    secondary: "#F3E8FF",
   },
   status: {
     success: "#16a34a",
