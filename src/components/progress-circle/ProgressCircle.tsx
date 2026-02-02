@@ -9,6 +9,7 @@ import Svg, { Circle, Defs, Filter, FeGaussianBlur } from "react-native-svg";
 import { Size, TextAppearance, Brightness } from "../../enums";
 import { Colors, Shadow } from "../../tokens";
 import { getBrightnessMultiplier } from "../../helpers";
+import { useThemeColors } from "../../context/ThemeContext";
 import { Text } from "../text/Text";
 import { Number } from "../number/Number";
 import { Skeleton } from "../skeleton/Skeleton";
@@ -92,6 +93,7 @@ export function ProgressCircle({
 }: ProgressCircleProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
   const config = SIZE_MAP[size];
   const progress = Math.min(Math.max((value / max) * 100, 0), 100);
@@ -164,7 +166,7 @@ export function ProgressCircle({
           cx={config.diameter / 2}
           cy={config.diameter / 2}
           r={radius}
-          stroke={Colors.background.overlay}
+          stroke={themeColors.background.overlay}
           strokeWidth={config.stroke}
           fill="none"
         />

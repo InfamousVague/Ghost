@@ -6,11 +6,9 @@ import {
   Platform,
   type ViewStyle,
 } from "react-native";
-import { Colors } from "../../tokens";
 import { Shape } from "../../enums";
 import { getShapeRadius } from "../../helpers";
-
-const SKELETON_BG = Colors.background.raised;
+import { useThemeColors } from "../../context/ThemeContext";
 
 /**
  * Props for the Skeleton component.
@@ -56,6 +54,7 @@ export function Skeleton({
   style,
 }: SkeletonProps) {
   const pulseAnim = useRef(new Animated.Value(0)).current;
+  const themeColors = useThemeColors();
 
   useEffect(() => {
     const animation = Animated.loop(
@@ -85,10 +84,15 @@ export function Skeleton({
     width: width as ViewStyle["width"],
     height: height as ViewStyle["height"],
     borderRadius,
-    backgroundColor: SKELETON_BG,
+    backgroundColor: themeColors.background.raised,
     overflow: "hidden",
     ...style,
   };
+
+  // Determine pulse color based on theme (light shimmer on dark, dark shimmer on light)
+  const isDark = themeColors.background.canvas === "#050608";
+  const pulseColor = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 0, 0, 0.04)";
+  const nativePulseColor = isDark ? "rgba(255, 255, 255, 1)" : "rgba(0, 0, 0, 1)";
 
   // For web, use CSS animation with global keyframes
   if (Platform.OS === "web") {
@@ -98,6 +102,7 @@ export function Skeleton({
           style={[
             styles.pulseLayer,
             {
+              backgroundColor: pulseColor,
               animationName: "skeleton-pulse",
               animationDuration: `${duration}ms`,
               animationIterationCount: "infinite",
@@ -120,7 +125,7 @@ export function Skeleton({
       <Animated.View
         style={[
           styles.nativePulse,
-          { opacity },
+          { opacity, backgroundColor: nativePulseColor },
         ]}
       />
     </View>

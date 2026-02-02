@@ -120,6 +120,29 @@ export const Colors = {
     /** Strong shadow color */
     shadowStrong: "rgba(0, 0, 0, 0.65)",
   },
+  /** Data visualization and indicator colors */
+  data: {
+    /** Blue - primary data color, loading states, active elements */
+    blue: "#3B82F6",
+    /** Blue surface/background */
+    blueSurface: "#0F172A",
+    /** Violet - secondary data color, EMA indicator */
+    violet: "#8B5CF6",
+    /** Violet surface/background */
+    violetSurface: "#1E1B4B",
+    /** Amber - tertiary data color, volatility, warnings */
+    amber: "#F59E0B",
+    /** Amber surface/background */
+    amberSurface: "#27200A",
+    /** Emerald - quaternary data color, volume indicator */
+    emerald: "#10B981",
+    /** Emerald surface/background */
+    emeraldSurface: "#0D2922",
+    /** Cyan - quinary data color, momentum indicator */
+    cyan: "#06B6D4",
+    /** Cyan surface/background */
+    cyanSurface: "#0A2A33",
+  },
 } as const;
 
 /**

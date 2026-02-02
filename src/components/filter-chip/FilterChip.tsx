@@ -7,9 +7,19 @@ import {
   type ViewStyle,
 } from "react-native";
 import { Size, TextAppearance } from "../../enums";
-import { Typography } from "../../tokens";
+import { Typography, Colors } from "../../tokens";
 import { useThemeColors } from "../../context/ThemeContext";
 import { Icon, type IconName } from "../icon/Icon";
+
+/**
+ * Semantic appearance variants for FilterChip.
+ * - `default`: Uses accent colors (purple)
+ * - `success`: Uses success colors (green) - ideal for "gainers", "buy"
+ * - `danger`: Uses danger colors (red) - ideal for "losers", "sell"
+ * - `warning`: Uses warning colors (yellow)
+ * - `info`: Uses info colors (blue)
+ */
+export type FilterChipAppearance = "default" | "success" | "danger" | "warning" | "info";
 
 /**
  * Props for the FilterChip component.
@@ -29,6 +39,8 @@ export type FilterChipProps = {
   size?: Size;
   /** Whether the chip is disabled */
   disabled?: boolean;
+  /** Semantic appearance when selected (default uses accent colors) */
+  appearance?: FilterChipAppearance;
   /** Additional style */
   style?: ViewStyle;
 };
@@ -47,6 +59,40 @@ const SIZE_MAP: Record<Size, { height: number; fontSize: number; padding: number
 };
 
 /**
+ * Get colors for appearance variant.
+ */
+function getAppearanceColors(appearance: FilterChipAppearance) {
+  switch (appearance) {
+    case "success":
+      return {
+        background: Colors.status.successSurface,
+        border: Colors.status.success,
+        text: Colors.status.success,
+      };
+    case "danger":
+      return {
+        background: Colors.status.dangerSurface,
+        border: Colors.status.danger,
+        text: Colors.status.danger,
+      };
+    case "warning":
+      return {
+        background: Colors.status.warningSurface,
+        border: Colors.status.warning,
+        text: Colors.status.warning,
+      };
+    case "info":
+      return {
+        background: Colors.status.infoSurface,
+        border: Colors.status.info,
+        text: Colors.status.info,
+      };
+    default:
+      return null; // Use theme colors
+  }
+}
+
+/**
  * A filter chip component for displaying filter options.
  */
 export function FilterChip({
@@ -57,20 +103,26 @@ export function FilterChip({
   icon,
   size = Size.Small,
   disabled = false,
+  appearance = "default",
   style,
 }: FilterChipProps) {
   const themeColors = useThemeColors();
   const sizeConfig = SIZE_MAP[size];
 
+  // Get appearance-specific colors when selected
+  const appearanceColors = selected && appearance !== "default"
+    ? getAppearanceColors(appearance)
+    : null;
+
   const containerStyle: ViewStyle = {
     height: sizeConfig.height,
     paddingHorizontal: sizeConfig.padding,
     backgroundColor: selected
-      ? themeColors.accent.secondary
+      ? (appearanceColors?.background ?? themeColors.accent.secondary)
       : themeColors.background.raised,
     borderWidth: 1,
     borderColor: selected
-      ? themeColors.accent.primary
+      ? (appearanceColors?.border ?? themeColors.accent.primary)
       : themeColors.border.subtle,
     borderRadius: sizeConfig.height / 2,
     flexDirection: "row",
@@ -80,7 +132,7 @@ export function FilterChip({
   };
 
   const textColor = selected
-    ? themeColors.accent.primary
+    ? (appearanceColors?.text ?? themeColors.accent.primary)
     : themeColors.text.secondary;
 
   return (
@@ -96,7 +148,8 @@ export function FilterChip({
         <Icon
           name={icon}
           size={Size.ExtraSmall}
-          appearance={selected ? TextAppearance.Link : TextAppearance.Muted}
+          color={appearanceColors ? textColor : undefined}
+          appearance={!appearanceColors ? (selected ? TextAppearance.Link : TextAppearance.Muted) : undefined}
         />
       )}
       <RNText
@@ -120,7 +173,8 @@ export function FilterChip({
           <Icon
             name="close"
             size={Size.TwoXSmall}
-            appearance={selected ? TextAppearance.Link : TextAppearance.Muted}
+            color={appearanceColors ? textColor : undefined}
+            appearance={!appearanceColors ? (selected ? TextAppearance.Link : TextAppearance.Muted) : undefined}
           />
         </Pressable>
       )}

@@ -8,6 +8,7 @@ import {
 import { Size, TextAppearance, Brightness } from "../../enums";
 import { Colors, Shadow } from "../../tokens";
 import { getBrightnessMultiplier } from "../../helpers";
+import { useThemeColors } from "../../context/ThemeContext";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
 
@@ -89,6 +90,7 @@ export function ProgressBar({
 }: ProgressBarProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
   const height = SIZE_MAP[size];
   const progress = Math.min(Math.max((value / max) * 100, 0), 100);
@@ -113,7 +115,7 @@ export function ProgressBar({
   const containerStyle: ViewStyle = {
     height,
     borderRadius: height / 2,
-    backgroundColor: Colors.background.overlay,
+    backgroundColor: themeColors.background.overlay,
     overflow: "visible", // Allow glow to show
     ...style,
   };

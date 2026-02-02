@@ -76,14 +76,14 @@ const lightColors: ThemeColors = {
     strong: "#cbd5e1",
   },
   accent: {
-    primary: "#8B5CF6",
-    secondary: "#F3E8FF",
+    primary: "#7C3AED", // Darker purple for better contrast
+    secondary: "#EDE9FE",
   },
   status: {
-    success: "#16a34a",
-    warning: "#ca8a04",
-    danger: "#dc2626",
-    info: "#0284c7",
+    success: "#15803d", // Darker green for 4.5:1 contrast
+    warning: "#a16207", // Darker amber for 4.5:1 contrast
+    danger: "#b91c1c", // Darker red for better contrast
+    info: "#0369a1", // Darker blue for 4.5:1 contrast
   },
 };
 

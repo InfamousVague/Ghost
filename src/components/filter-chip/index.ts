@@ -1,1 +1,1 @@
-export { FilterChip, type FilterChipProps } from "./FilterChip";
+export { FilterChip, type FilterChipProps, type FilterChipAppearance } from "./FilterChip";

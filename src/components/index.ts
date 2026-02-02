@@ -2,7 +2,7 @@ export { AnimatedNumber, type AnimatedNumberProps } from "./animated-number";
 export { Avatar, type AvatarProps, type AvatarStatus } from "./avatar";
 export { Badge, type BadgeProps, type BadgeVariant } from "./badge";
 export { Button, type ButtonProps } from "./button/Button";
-export { FilterChip, type FilterChipProps } from "./filter-chip";
+export { FilterChip, type FilterChipProps, type FilterChipAppearance } from "./filter-chip";
 export { Select, type SelectProps, type SelectOption } from "./select";
 export { Card, CardBorder, CardGlow, CardVariant, LoadingContext, useLoading, type CardProps } from "./card/Card";
 export { Chart, type ChartProps, LightweightChart, type LightweightChartProps, type ChartDataPoint, type ChartType } from "./chart";
@@ -22,3 +22,11 @@ export { Text, type TextProps } from "./text/Text";
 export { Toggle, type ToggleProps } from "./toggle/Toggle";
 export { SegmentedControl, type SegmentedControlProps, type SegmentOption } from "./segmented-control";
 export { Slider, type SliderProps } from "./slider";
+export {
+  PulseIndicator,
+  BeaconIndicator,
+  HotspotIndicator,
+  BadgeIndicator,
+  SpotlightRing,
+  TooltipArrow,
+} from "./tour-indicator";

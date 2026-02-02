@@ -3,13 +3,16 @@ import {
   View,
   StyleSheet,
   Platform,
+  useWindowDimensions,
   type ViewStyle,
   type ViewProps,
 } from "react-native";
 import { LinearGradient } from "./LinearGradient";
 import { Shape } from "../../enums";
 import { getShapeRadius } from "../../helpers";
-import { Colors } from "../../tokens";
+import { useThemeColors } from "../../context/ThemeContext";
+
+const MOBILE_BREAKPOINT = 480;
 
 /**
  * Context for cascading loading state to child components.
@@ -93,19 +96,25 @@ export type CardProps = {
   padding?: number;
   /** Whether the card is in loading state (cascades to children) */
   loading?: boolean;
+  /** Edge-to-edge on mobile: no padding, no border radius, no side borders */
+  fullBleed?: boolean;
   /** Additional style overrides */
   style?: ViewStyle;
 } & Omit<ViewProps, "style">;
 
-/** Background colors by variant */
-const VARIANT_BACKGROUNDS: Record<CardVariant, string> = {
-  [CardVariant.Default]: Colors.background.canvas,
-  [CardVariant.Surface]: Colors.background.surface,
-  [CardVariant.Raised]: Colors.background.raised,
-};
-
-/** Subtle border color */
-const BORDER_SUBTLE = Colors.border.subtle;
+/** Get background color by variant from theme colors */
+function getVariantBackground(variant: CardVariant, themeColors: ReturnType<typeof useThemeColors>): string {
+  switch (variant) {
+    case CardVariant.Default:
+      return themeColors.background.canvas;
+    case CardVariant.Surface:
+      return themeColors.background.surface;
+    case CardVariant.Raised:
+      return themeColors.background.raised;
+    default:
+      return themeColors.background.canvas;
+  }
+}
 
 /** Border thickness for gradient borders */
 const GRADIENT_BORDER_WIDTH = 2;
@@ -169,11 +178,24 @@ export function Card({
   seed,
   padding = 16,
   loading = false,
+  fullBleed = false,
   style,
   ...props
 }: CardProps) {
-  const borderRadius = parseFloat(getShapeRadius(shape)) || 12;
-  const backgroundColor = VARIANT_BACKGROUNDS[variant];
+  const themeColors = useThemeColors();
+  const { width } = useWindowDimensions();
+  const isMobile = width <= MOBILE_BREAKPOINT;
+
+  // Apply fullBleed adjustments on mobile
+  const effectivePadding = fullBleed && isMobile ? 0 : padding;
+  const effectiveBorderRadius = fullBleed && isMobile ? 0 : (parseFloat(getShapeRadius(shape)) || 12);
+  const fullBleedBorderStyle: ViewStyle = fullBleed && isMobile
+    ? { borderLeftWidth: 0, borderRightWidth: 0 }
+    : {};
+
+  const borderRadius = effectiveBorderRadius;
+  const backgroundColor = getVariantBackground(variant, themeColors);
+  const borderSubtle = themeColors.border.subtle;
 
   // Get aligned glow config (position + matching border gradient)
   const glowConfig = getGlowConfig(seed);
@@ -186,15 +208,16 @@ export function Card({
   const cardStyle: ViewStyle = {
     backgroundColor,
     borderRadius,
-    padding,
+    padding: effectivePadding,
     overflow: "hidden",
+    ...fullBleedBorderStyle,
     ...style,
   };
 
   // Solid border style
   const solidBorderStyle: ViewStyle = {
     borderWidth: 1,
-    borderColor: BORDER_SUBTLE,
+    borderColor: borderSubtle,
   };
 
   // For gradient borders

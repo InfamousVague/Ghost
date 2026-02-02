@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, type ViewStyle } from "react-native";
 import Svg, { Path, Circle, Rect, Line, Polyline } from "react-native-svg";
 import { Size, TextAppearance } from "../../enums";
-import { getTextAppearanceColor } from "../../helpers";
+import { useThemedTextColor } from "../../helpers";
 import { Colors } from "../../tokens";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
@@ -68,7 +68,10 @@ export type IconName =
   | "coins"
   | "building-2"
   | "pie-chart"
-  | "power";
+  | "power"
+  | "turtle"
+  | "rabbit"
+  | "scale";
 
 /**
  * Size to pixel mapping.
@@ -127,9 +130,10 @@ export function Icon({
 }: IconProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const getThemedColor = useThemedTextColor();
 
   const pixelSize = customSize ?? SIZE_MAP[size];
-  const color = customColor ?? getTextAppearanceColor(appearance);
+  const color = customColor ?? getThemedColor(appearance);
 
   // Loading state
   if (loading) {
@@ -640,6 +644,41 @@ function renderIcon(name: IconName, color: string) {
         <>
           <Path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
           <Line x1="12" y1="2" x2="12" y2="12" />
+        </>
+      );
+
+    case "turtle":
+      // Turtle - slow mode indicator (Lucide icon)
+      return (
+        <>
+          <Path d="m12 10 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a8 8 0 1 0-16 0v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3l2-4h4Z" />
+          <Path d="M4.82 7.9 8 10" />
+          <Path d="M15.18 7.9 12 10" />
+          <Path d="M16.93 10H20a2 2 0 0 1 0 4H2" />
+        </>
+      );
+
+    case "rabbit":
+      // Rabbit - fast mode indicator (Lucide icon)
+      return (
+        <>
+          <Path d="M13 16a3 3 0 0 1 2.24 5" />
+          <Path d="M18 12h.01" />
+          <Path d="M18 21h-8a4 4 0 0 1-4-4 7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3" />
+          <Path d="M20 8.54V4a2 2 0 1 0-4 0v3" />
+          <Path d="M7.612 12.524a3 3 0 1 0-1.6 4.3" />
+        </>
+      );
+
+    case "scale":
+      // Balance scale - balanced mode indicator (Lucide icon)
+      return (
+        <>
+          <Path d="M12 3v18" />
+          <Path d="M19 8l3 8a5 5 0 0 1-6 0z" />
+          <Path d="M5 8l-3 8a5 5 0 0 0 6 0z" />
+          <Path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" />
+          <Path d="M7 21h10" />
         </>
       );
 

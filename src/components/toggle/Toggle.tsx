@@ -8,9 +8,9 @@ import {
   type ViewStyle,
 } from "react-native";
 import { Size, TextAppearance } from "../../enums";
-import { Colors } from "../../tokens";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
+import { useThemeColors } from "../../context/ThemeContext";
 import { Icon, type IconName } from "../icon/Icon";
 import { Text } from "../text/Text";
 
@@ -95,6 +95,7 @@ export function Toggle({
 }: ToggleProps) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
   const translateAnim = useRef(new Animated.Value(value ? 1 : 0)).current;
 
@@ -149,7 +150,7 @@ export function Toggle({
 
   const trackColor = translateAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [Colors.background.overlay, Colors.accent.primary],
+    outputRange: [themeColors.background.overlay, themeColors.accent.primary],
   });
 
   // Opacity animations for icons/labels

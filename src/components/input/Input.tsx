@@ -11,6 +11,7 @@ import {
 import { Size, Shape, TextAppearance } from "../../enums";
 import { getShapeRadius } from "../../helpers";
 import { Colors, Typography } from "../../tokens";
+import { useThemeColors } from "../../context/ThemeContext";
 import { Icon, type IconName } from "../icon/Icon";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
@@ -94,6 +95,7 @@ export function Input({
   const [isFocused, setIsFocused] = useState(false);
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
   const sizeStyles = SIZE_MAP[size];
   const borderRadius = parseFloat(getShapeRadius(shape)) || 8;
@@ -102,15 +104,15 @@ export function Input({
   const borderColor = error
     ? Colors.status.danger
     : isFocused
-    ? Colors.border.focus
-    : Colors.border.subtle;
+    ? themeColors.border.focus
+    : themeColors.border.subtle;
 
   const containerStyle: ViewStyle = {
     height: sizeStyles.height,
     borderRadius,
     borderWidth: 1,
     borderColor: borderColor as string,
-    backgroundColor: Colors.background.surface,
+    backgroundColor: themeColors.background.surface,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: sizeStyles.padding,
@@ -123,7 +125,7 @@ export function Input({
     flex: 1,
     fontSize: sizeStyles.fontSize,
     fontFamily: Typography.fontFamily.base,
-    color: Colors.text.primary,
+    color: themeColors.text.primary,
     padding: 0,
     margin: 0,
     // Web-specific styles
@@ -156,7 +158,7 @@ export function Input({
       <TextInput
         value={value}
         placeholder={placeholder}
-        placeholderTextColor={Colors.text.muted}
+        placeholderTextColor={themeColors.text.muted}
         onChangeText={onChangeText}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}

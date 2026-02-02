@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Pressable, StyleSheet, type ViewStyle } from "react-native";
 import { Size, TextAppearance } from "../../enums";
-import { Colors } from "../../tokens";
 import { Text } from "../text/Text";
 import { Icon, type IconName } from "../icon/Icon";
 import { Skeleton } from "../skeleton/Skeleton";
 import { useLoading } from "../card/Card";
+import { useThemeColors } from "../../context/ThemeContext";
 
 /**
  * A single segment option.
@@ -112,6 +112,7 @@ export function SegmentedControl<T extends string = string>({
 }: SegmentedControlProps<T>) {
   const parentLoading = useLoading();
   const loading = loadingProp || parentLoading;
+  const themeColors = useThemeColors();
 
   const sizeStyles = SIZE_MAP[size];
 
@@ -132,12 +133,12 @@ export function SegmentedControl<T extends string = string>({
     flexDirection: "row",
     alignItems: "center",
     height: sizeStyles.height,
-    backgroundColor: Colors.background.surface,
+    backgroundColor: themeColors.background.surface,
     borderRadius: sizeStyles.borderRadius,
     padding: sizeStyles.padding,
     gap: sizeStyles.padding,
     borderWidth: 1,
-    borderColor: Colors.border.subtle,
+    borderColor: themeColors.border.subtle,
     opacity: disabled ? 0.5 : 1,
     ...style,
   };
@@ -156,7 +157,7 @@ export function SegmentedControl<T extends string = string>({
               {
                 flex: 1,
                 height: sizeStyles.height - (sizeStyles.padding * 2),
-                backgroundColor: isSelected ? Colors.background.raised : "transparent",
+                backgroundColor: isSelected ? themeColors.background.raised : "transparent",
                 paddingHorizontal: sizeStyles.paddingHorizontal,
                 borderRadius: sizeStyles.innerRadius,
                 gap: sizeStyles.gap,
