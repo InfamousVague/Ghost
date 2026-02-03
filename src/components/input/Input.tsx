@@ -104,7 +104,7 @@ export function Input({
   const borderColor = error
     ? Colors.status.danger
     : isFocused
-    ? themeColors.border.focus
+    ? themeColors.accent.primary
     : themeColors.border.subtle;
 
   const containerStyle: ViewStyle = {

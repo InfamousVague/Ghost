@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from "react";
-import { View, Platform, StyleSheet, type ViewStyle } from "react-native";
+import { View, Platform, StyleSheet, type ViewStyle, type DimensionValue } from "react-native";
 import {
   createChart,
   AreaSeries,
@@ -187,7 +187,6 @@ export function LightweightChart({
         visible: showTimeScale,
         borderVisible: false,
         rightOffset: 0,
-        leftOffset: 0,
         fixLeftEdge: true,
         fixRightEdge: true,
       },
@@ -289,7 +288,7 @@ export function LightweightChart({
 
   // Don't render on native
   if (Platform.OS !== "web") {
-    return <View style={[styles.placeholder, { width, height }, style]} />;
+    return <View style={[styles.placeholder, { width: width as DimensionValue, height }, style]} />;
   }
 
   const containerStyle: React.CSSProperties = {

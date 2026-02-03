@@ -198,12 +198,12 @@ export function Select<T = string>({
               <Pressable
                 key={String(option.value)}
                 onPress={() => !isDisabled && handleSelect(option.value)}
-                style={({ pressed, hovered }) => [
+                style={(state) => [
                   styles.option,
                   {
-                    backgroundColor: pressed
+                    backgroundColor: state.pressed
                       ? themeColors.background.overlay
-                      : (hovered as boolean)
+                      : ("hovered" in state && state.hovered)
                       ? "rgba(255,255,255,0.05)"
                       : "transparent",
                     opacity: isDisabled ? 0.5 : 1,

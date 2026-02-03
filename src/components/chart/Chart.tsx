@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, type ViewStyle } from "react-native";
+import { View, StyleSheet, type ViewStyle, type DimensionValue } from "react-native";
 import { Colors } from "../../tokens";
 import { TextAppearance } from "../../enums";
 import { Text } from "../text/Text";
@@ -63,7 +63,7 @@ export function Chart({
     : "";
 
   return (
-    <View style={[styles.container, { width, height }, style]}>
+    <View style={[styles.container, { width: width as DimensionValue, height }, style]}>
       {title && (
         <Text
           size={Size.ExtraSmall}
