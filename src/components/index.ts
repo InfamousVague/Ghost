@@ -1,6 +1,7 @@
 export { AnimatedNumber, type AnimatedNumberProps } from "./animated-number";
 export { Avatar, type AvatarProps, type AvatarStatus } from "./avatar";
 export { Badge, type BadgeProps, type BadgeVariant } from "./badge";
+export { BottomSheet, type BottomSheetProps } from "./bottom-sheet";
 export { Button, type ButtonProps } from "./button/Button";
 export { FilterChip, type FilterChipProps, type FilterChipAppearance } from "./filter-chip";
 export { Select, type SelectProps, type SelectOption } from "./select";
@@ -14,6 +15,7 @@ export { Input, type InputProps } from "./input/Input";
 export { LinearGradient, type LinearGradientProps } from "./card/LinearGradient";
 export { Number, type NumberProps, type NumberFormat } from "./number/Number";
 export { PercentChange, type PercentChangeProps } from "./percent-change";
+export { Popover, type PopoverProps, type PopoverPlacement } from "./popover";
 export { ProgressBar, type ProgressBarProps } from "./progress-bar";
 export { ProgressCircle, type ProgressCircleProps } from "./progress-circle";
 export { Skeleton, TextSkeleton, type SkeletonProps, type TextSkeletonProps } from "./skeleton/Skeleton";

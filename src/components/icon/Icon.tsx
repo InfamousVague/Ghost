@@ -71,7 +71,10 @@ export type IconName =
   | "power"
   | "turtle"
   | "rabbit"
-  | "scale";
+  | "scale"
+  | "tower"
+  | "signal"
+  | "radio";
 
 /**
  * Size to pixel mapping.
@@ -679,6 +682,40 @@ function renderIcon(name: IconName, color: string) {
           <Path d="M5 8l-3 8a5 5 0 0 0 6 0z" />
           <Path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" />
           <Path d="M7 21h10" />
+        </>
+      );
+
+    case "tower":
+      // Radio tower / antenna - for ping visualization
+      return (
+        <>
+          <Path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9" />
+          <Path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5" />
+          <Circle cx="12" cy="12" r="2" />
+          <Path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5" />
+          <Path d="M19.1 4.9C23 8.8 23 15.1 19.1 19" />
+        </>
+      );
+
+    case "signal":
+      // Signal strength bars - for connection quality
+      return (
+        <>
+          <Line x1="2" y1="20" x2="2" y2="16" />
+          <Line x1="6" y1="20" x2="6" y2="12" />
+          <Line x1="10" y1="20" x2="10" y2="8" />
+          <Line x1="14" y1="20" x2="14" y2="4" />
+          <Line x1="18" y1="20" x2="18" y2="8" />
+          <Line x1="22" y1="20" x2="22" y2="12" />
+        </>
+      );
+
+    case "radio":
+      // Radio broadcast - for mesh/network
+      return (
+        <>
+          <Circle cx="12" cy="12" r="2" />
+          <Path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14" />
         </>
       );
 
