@@ -120,6 +120,31 @@ export const Colors = {
     /** Strong shadow color */
     shadowStrong: "rgba(0, 0, 0, 0.65)",
   },
+  /** Overlay/transparency colors for layering effects */
+  overlay: {
+    /** White overlays - for light highlights on dark backgrounds */
+    white: {
+      /** Very subtle white overlay (2% opacity) */
+      subtle: "rgba(255, 255, 255, 0.02)",
+      /** Faint white overlay (5% opacity) */
+      faint: "rgba(255, 255, 255, 0.05)",
+      /** Light white overlay (10% opacity) */
+      light: "rgba(255, 255, 255, 0.1)",
+      /** Medium white overlay (20% opacity) */
+      medium: "rgba(255, 255, 255, 0.2)",
+      /** Strong white overlay (30% opacity) */
+      strong: "rgba(255, 255, 255, 0.3)",
+    },
+    /** Black overlays - for shadows and dimming effects */
+    black: {
+      /** Light black overlay (20% opacity) */
+      light: "rgba(0, 0, 0, 0.2)",
+      /** Medium black overlay (40% opacity) */
+      medium: "rgba(0, 0, 0, 0.4)",
+      /** Strong black overlay (60% opacity) */
+      strong: "rgba(0, 0, 0, 0.6)",
+    },
+  },
   /** Data visualization and indicator colors */
   data: {
     /** Blue - primary data color, loading states, active elements */

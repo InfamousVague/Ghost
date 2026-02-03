@@ -19,8 +19,14 @@ export const Radii = {
   none: "0",
   /** Subtle rounding (4px) */
   soft: "4px",
+  /** Small rounding (6px) */
+  sm: "6px",
   /** Standard rounding (8px) */
   rounded: "8px",
+  /** Large rounding (12px) */
+  lg: "12px",
+  /** Extra large rounding (16px) */
+  xl: "16px",
   /** Pill/capsule shape (9999px) */
   pill: "9999px",
   /** Perfect circle (50%) */
