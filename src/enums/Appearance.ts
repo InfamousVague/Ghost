@@ -35,4 +35,7 @@ export enum Appearance {
 
   /** Transparent background, used for subtle/text-like buttons */
   Ghost = "ghost",
+
+  /** Neutral gray, used for non-primary actions */
+  Neutral = "neutral",
 }

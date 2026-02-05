@@ -132,6 +132,14 @@ const appearanceConfig: Record<Appearance, AppearanceConfig> = {
     border: "transparent",
     glowEnabled: false,
   },
+  [Appearance.Neutral]: {
+    background: Colors.background.raised,
+    backgroundHover: Colors.background.overlay,
+    backgroundActive: Colors.surface.tertiary,
+    text: () => Colors.text.secondary,
+    border: Colors.border.subtle,
+    glowEnabled: false,
+  },
 };
 
 /**

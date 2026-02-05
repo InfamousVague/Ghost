@@ -227,9 +227,8 @@ export function Popover({
     }
   }, [closeOnClickOutside, onClose]);
 
-  if (!visible) return null;
-
   // Measure popover on web after render
+  // NOTE: This must be before the conditional return to maintain hook order
   useEffect(() => {
     if (!visible || Platform.OS !== "web") return;
 
@@ -256,6 +255,8 @@ export function Popover({
       return () => observer.disconnect();
     }
   }, [visible]);
+
+  if (!visible) return null;
 
   // Web rendering with scrollable content
   if (Platform.OS === "web") {

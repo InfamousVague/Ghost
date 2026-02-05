@@ -113,11 +113,26 @@ export function Button({
     : appearanceColors.border;
 
   const hasIcon = iconLeft || iconRight;
+  const isIconOnly = hasIcon && !label;
+
+  // Calculate the natural button height (what a text button would have)
+  // This is: paddingVertical * 2 + lineHeight + borderWidth * 2
+  const lineHeight = fontSize * 1.5;
+  const naturalButtonHeight = paddingVertical * 2 + lineHeight + 2; // +2 for borders
+
   const containerStyle: ViewStyle = {
-    flexDirection: hasIcon ? "row" : undefined,
-    gap: hasIcon ? 6 : undefined,
-    paddingVertical,
-    paddingHorizontal,
+    flexDirection: hasIcon && !isIconOnly ? "row" : undefined,
+    gap: hasIcon && !isIconOnly ? 6 : undefined,
+    // For icon-only buttons, use fixed dimensions to match text button height
+    ...(isIconOnly
+      ? {
+          width: naturalButtonHeight,
+          height: naturalButtonHeight,
+        }
+      : {
+          paddingVertical,
+          paddingHorizontal,
+        }),
     borderRadius: parsedBorderRadius,
     borderWidth: 1,
     borderColor: loading ? Colors.border.subtle : effectiveBorderColor,
@@ -130,16 +145,20 @@ export function Button({
   };
 
   // Icon size based on button size
-  const iconSize = size === Size.Large || size === Size.ExtraLarge
-    ? Size.Small
-    : size === Size.Medium
-    ? Size.ExtraSmall
-    : Size.TwoXSmall;
+  // For icon-only buttons, use a larger icon to fill the space better
+  // For buttons with text, icon should be proportional to font size
+  const iconSize = isIconOnly
+    ? (size === Size.Large || size === Size.ExtraLarge ? Size.Medium : Size.Small)
+    : (size === Size.Large || size === Size.ExtraLarge
+      ? Size.Medium
+      : size === Size.Medium
+      ? Size.Small
+      : Size.ExtraSmall);
 
   const textStyle: TextStyle = {
     fontSize,
     fontWeight: Typography.fontWeight.medium as TextStyle["fontWeight"],
-    lineHeight: fontSize * 1.5,
+    lineHeight,
     color: effectiveTextColor,
   };
 
@@ -167,7 +186,7 @@ export function Button({
       accessibilityState={{ disabled }}
     >
       {iconLeft && <Icon name={iconLeft} size={iconSize} color={effectiveTextColor} />}
-      <Text style={textStyle}>{label}</Text>
+      {label ? <Text style={textStyle}>{label}</Text> : null}
       {iconRight && <Icon name={iconRight} size={iconSize} color={effectiveTextColor} />}
     </Pressable>
   );
