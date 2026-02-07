@@ -14,6 +14,7 @@ export { Icon, type IconProps, type IconName } from "./icon/Icon";
 export { Input, type InputProps } from "./input/Input";
 export { LinearGradient, type LinearGradientProps } from "./card/LinearGradient";
 export { Number, type NumberProps, type NumberFormat } from "./number/Number";
+export { Pagination, type PaginationProps } from "./pagination";
 export { PercentChange, type PercentChangeProps } from "./percent-change";
 export { Popover, type PopoverProps, type PopoverPlacement } from "./popover";
 export { ProgressBar, type ProgressBarProps } from "./progress-bar";

@@ -134,7 +134,9 @@ export type IconName =
   | "crown"
   | "trophy"
   | "log-in"
-  | "log-out";
+  | "log-out"
+  | "pointer"
+  | "dollar-sign";
 
 /**
  * Size to pixel mapping.
@@ -1386,6 +1388,32 @@ function renderIcon(name: IconName, color: string) {
           <Path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
           <Polyline points="16 17 21 12 16 7" />
           <Line x1="21" y1="12" x2="9" y2="12" />
+        </>
+      );
+
+    case "pointer":
+      // Tapping finger / cursor click icon
+      return (
+        <>
+          <Path d="M14 4.1L12 6" />
+          <Path d="M5.1 11.6l1.9-1.1" />
+          <Path d="M18.9 11.6l-1.9-1.1" />
+          <Path d="M9.7 7.4l.9 1.7" />
+          <Path d="M18.3 7.4l-.9 1.7" />
+          <Path d="M12 12v6" />
+          <Path d="M8 18h8" />
+          <Path d="M12 18l-4 4" />
+          <Path d="M12 18l4 4" />
+          <Circle cx="12" cy="10" r="2" />
+        </>
+      );
+
+    case "dollar-sign":
+      // Dollar sign icon
+      return (
+        <>
+          <Line x1="12" y1="1" x2="12" y2="23" />
+          <Path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
         </>
       );
 
